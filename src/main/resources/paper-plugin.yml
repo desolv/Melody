@@ -1,0 +1,4 @@
+name: Melody
+version: '1.0-SNAPSHOT'
+main: gg.desolve.melody.Melody
+api-version: '1.21'
