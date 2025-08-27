@@ -1,20 +1,51 @@
 package gg.desolve.melody;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import eu.okaeri.configs.ConfigManager;
+import eu.okaeri.configs.serdes.standard.StandardSerdes;
+import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
+import gg.desolve.melody.config.MelodyConfig;
+import gg.desolve.melody.manager.MongoManager;
+import gg.desolve.melody.manager.RedisManager;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Melody extends JavaPlugin implements Listener {
+public final class Melody extends JavaPlugin {
+
+    @Getter
+    public static Melody instance;
+
+    @Getter
+    public MelodyConfig melodyConfig;
+
+    @Getter
+    public MongoManager mongoManager;
+
+    @Getter
+    public RedisManager redisManager;
+
     @Override
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, this);
+        instance = this;
+
+        loadConfigs();
+
+        mongoManager = new MongoManager(
+                melodyConfig.mongo.url,
+                melodyConfig.mongo.database
+        );
+
+        redisManager = new RedisManager(melodyConfig.redis.url);
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().sendMessage(Component.text("Hello, " + event.getPlayer().getName() + "!"));
+    private void loadConfigs() {
+        melodyConfig = ConfigManager.create(MelodyConfig.class, it -> {
+            it.withConfigurer(new YamlSnakeYamlConfigurer(), new StandardSerdes());
+            it.withBindFile(getDataFolder().toPath().resolve("config.yml"));
+            it.saveDefaults();
+            it.load(true);
+        });
+
+        this.getLogger().info("Successfully loaded configs.");
     }
+
 }
