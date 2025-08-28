@@ -3,11 +3,20 @@ package gg.desolve.melody;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.serdes.standard.StandardSerdes;
 import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
+import gg.desolve.melody.command.param.OnlinePlayerType;
+import gg.desolve.melody.command.ReportCommand;
 import gg.desolve.melody.config.MelodyConfig;
 import gg.desolve.melody.manager.MongoManager;
 import gg.desolve.melody.manager.RedisManager;
 import lombok.Getter;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import revxrsal.commands.Lamp;
+import revxrsal.commands.bukkit.BukkitLamp;
+import revxrsal.commands.bukkit.BukkitLampConfig;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
+
+import java.util.List;
 
 public final class Melody extends JavaPlugin {
 
@@ -23,6 +32,9 @@ public final class Melody extends JavaPlugin {
     @Getter
     public RedisManager redisManager;
 
+    @Getter
+    public Lamp<BukkitCommandActor> lamp;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -35,6 +47,8 @@ public final class Melody extends JavaPlugin {
         );
 
         redisManager = new RedisManager(melodyConfig.redis.url);
+
+        loadCommands();
     }
 
     private void loadConfigs() {
@@ -44,8 +58,20 @@ public final class Melody extends JavaPlugin {
             it.saveDefaults();
             it.load(true);
         });
+    }
 
-        this.getLogger().info("Successfully loaded configs.");
+    private void loadCommands() {
+        BukkitLampConfig<BukkitCommandActor> config = BukkitLampConfig.builder(this)
+                .disableBrigadier()
+                .build();
+
+        lamp = BukkitLamp.builder(config).build();
+
+        this.getLogger().info("Hooked into Lamp.");
+
+        List.of(
+                //
+        ).forEach(lamp::register);
     }
 
 }
