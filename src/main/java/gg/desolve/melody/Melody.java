@@ -65,7 +65,10 @@ public final class Melody extends JavaPlugin {
                 .disableBrigadier()
                 .build();
 
-        lamp = BukkitLamp.builder(config).build();
+        lamp = BukkitLamp.builder(config)
+                .parameterTypes(builder ->
+                        builder.addParameterType(Player.class, new OnlinePlayerType()))
+                .build();
 
         this.getLogger().info("Hooked into Lamp.");
 
