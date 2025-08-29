@@ -35,7 +35,7 @@ public class RedisManager {
         }
     }
 
-    public static <T> CompletableFuture<T> withRedisAsync(Function<Jedis, T> action) {
+    public <T> CompletableFuture<T> withRedisAsync(Function<Jedis, T> action) {
         return CompletableFuture.supplyAsync(() -> {
             if (jedisPool == null) return null;
             try (Jedis j = jedisPool.getResource()) {
@@ -48,11 +48,11 @@ public class RedisManager {
         });
     }
 
-    public static CompletableFuture<Long> publishAsync(String channel, String payload) {
+    public CompletableFuture<Long> publishAsync(String channel, String payload) {
         return withRedisAsync(j -> j.publish(channel, payload));
     }
 
-    public static AutoCloseable subscribeAsync(JedisPubSub listener, String... channels) {
+    public AutoCloseable subscribeAsync(JedisPubSub listener, String... channels) {
         Thread t = new Thread(() -> {
             try (Jedis j = jedisPool.getResource()) {
                 j.subscribe(listener, channels);
