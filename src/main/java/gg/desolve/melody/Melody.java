@@ -3,11 +3,13 @@ package gg.desolve.melody;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.serdes.standard.StandardSerdes;
 import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
-import gg.desolve.melody.command.param.OnlinePlayerType;
+import fr.mrmicky.fastinv.FastInvManager;
 import gg.desolve.melody.command.ReportCommand;
+import gg.desolve.melody.command.type.OnlinePlayerType;
 import gg.desolve.melody.config.MelodyConfig;
 import gg.desolve.melody.manager.MongoManager;
 import gg.desolve.melody.manager.RedisManager;
+import gg.desolve.melody.manager.ReportManager;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,7 +22,6 @@ import java.util.List;
 
 public final class Melody extends JavaPlugin {
 
-    @Getter
     public static Melody instance;
 
     @Getter
@@ -31,6 +32,9 @@ public final class Melody extends JavaPlugin {
 
     @Getter
     public RedisManager redisManager;
+
+    @Getter
+    private ReportManager reportManager;
 
     @Getter
     public Lamp<BukkitCommandActor> lamp;
@@ -48,7 +52,10 @@ public final class Melody extends JavaPlugin {
 
         redisManager = new RedisManager(melodyConfig.redis.url);
 
+        reportManager = new ReportManager();
+
         loadCommands();
+        loadInventory();
     }
 
     private void loadConfigs() {
@@ -66,15 +73,23 @@ public final class Melody extends JavaPlugin {
                 .build();
 
         lamp = BukkitLamp.builder(config)
-                .parameterTypes(builder ->
-                        builder.addParameterType(Player.class, new OnlinePlayerType()))
+                .dependency(ReportManager.class, reportManager)
+                .parameterTypes(builder -> {
+                    builder.addParameterType(Player.class, new OnlinePlayerType());
+                })
                 .build();
 
         this.getLogger().info("Hooked into Lamp.");
 
         List.of(
-                //
+                new ReportCommand()
         ).forEach(lamp::register);
+    }
+
+    private void loadInventory() {
+        FastInvManager.register(this);
+
+        this.getLogger().info("Hooked into FastInv.");
     }
 
 }
