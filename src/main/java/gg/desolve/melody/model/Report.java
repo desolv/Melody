@@ -40,4 +40,32 @@ public class Report {
 
         return Instant.now().isAfter(this.createdAt.plus(duration));
     }
+
+    public static Document toDocument(Report report) {
+        Document document = new Document();
+        document.put("_id", report.getId());
+        document.put("reporter", report.getReporter());
+        document.put("target", report.getTarget());
+        document.put("reason", report.getReason());
+        document.put("createdAt", report.getCreatedAt());
+        document.put("server", report.getServer());
+        document.put("state", report.getState().name());
+        document.put("handledBy", report.getHandledBy());
+        document.put("handledAt", report.getHandledAt());
+        return document;
+    }
+
+    public static Report fromDocument(Document document) {
+        return new Report(
+                document.getString("_id"),
+                UUID.fromString(document.getString("reporter")),
+                UUID.fromString(document.getString("target")),
+                document.getString("reason"),
+                Instant.parse(document.getString("createdAt")),
+                document.getString("server"),
+                ReportState.valueOf(document.getString("state")),
+                UUID.fromString(document.getString("handledBy")),
+                Instant.parse(document.getString("handledAt"))
+        );
+    }
 }
