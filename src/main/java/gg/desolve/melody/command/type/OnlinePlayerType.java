@@ -1,12 +1,12 @@
-package gg.desolve.melody.command.param;
+package gg.desolve.melody.command.type;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import revxrsal.commands.autocomplete.SuggestionProvider;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.exception.CommandErrorException;
 import revxrsal.commands.node.ExecutionContext;
-import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.parameter.ParameterType;
 import revxrsal.commands.stream.MutableStringStream;
 
@@ -29,7 +29,7 @@ public final class OnlinePlayerType implements ParameterType<BukkitCommandActor,
 
     @Override
     public @NotNull SuggestionProvider<@NotNull BukkitCommandActor> defaultSuggestions() {
-        return context -> Bukkit.getOnlinePlayers().stream()
+        return _ -> Bukkit.getOnlinePlayers().stream()
                 .map(Player::getName)
                 .toList();
     }
