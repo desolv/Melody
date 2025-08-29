@@ -10,6 +10,9 @@ public class MelodyConfig extends OkaeriConfig {
     @Comment("")
     public Redis redis = new Redis();
 
+    @Comment("")
+    public String server_name = "melody";
+
     public static class Mongo extends OkaeriConfig {
         public String url = "mongodb://localhost:27017";
         public String database = "melody";
