@@ -7,9 +7,11 @@ import fr.mrmicky.fastinv.FastInvManager;
 import gg.desolve.melody.command.ReportCommand;
 import gg.desolve.melody.command.type.OnlinePlayerType;
 import gg.desolve.melody.config.MelodyConfig;
+import gg.desolve.melody.config.MessageConfig;
 import gg.desolve.melody.manager.MongoManager;
 import gg.desolve.melody.manager.RedisManager;
 import gg.desolve.melody.manager.ReportManager;
+import gg.desolve.melody.subscriber.ReportSubscriber;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +28,9 @@ public final class Melody extends JavaPlugin {
 
     @Getter
     public MelodyConfig melodyConfig;
+
+    @Getter
+    public MessageConfig messageConfig;
 
     @Getter
     public MongoManager mongoManager;
@@ -62,6 +67,13 @@ public final class Melody extends JavaPlugin {
         melodyConfig = ConfigManager.create(MelodyConfig.class, it -> {
             it.withConfigurer(new YamlSnakeYamlConfigurer(), new StandardSerdes());
             it.withBindFile(getDataFolder().toPath().resolve("config.yml"));
+            it.saveDefaults();
+            it.load(true);
+        });
+
+        messageConfig = ConfigManager.create(MessageConfig.class, it -> {
+            it.withConfigurer(new YamlSnakeYamlConfigurer(), new StandardSerdes());
+            it.withBindFile(getDataFolder().toPath().resolve("messages.yml"));
             it.saveDefaults();
             it.load(true);
         });
