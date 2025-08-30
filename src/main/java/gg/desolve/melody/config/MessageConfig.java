@@ -1,7 +1,6 @@
 package gg.desolve.melody.config;
 
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.Comment;
 
 import java.util.Arrays;
 import java.util.List;
