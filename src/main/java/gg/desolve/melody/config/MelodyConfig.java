@@ -12,7 +12,7 @@ public class MelodyConfig extends OkaeriConfig {
 
     @Comment("")
     public String server_name = "melody";
-    public String prefix = "<yellow><bold>Report</bold> <gray>››<white>";
+    public String prefix = "<yellow><bold>Report</bold> <gray>››<white> ";
 
     public static class Mongo extends OkaeriConfig {
         public String url = "mongodb://localhost:27017";
