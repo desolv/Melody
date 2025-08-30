@@ -61,6 +61,11 @@ public final class Melody extends JavaPlugin {
 
         loadCommands();
         loadInventory();
+
+        redisManager.subscribeAsync(
+                new ReportSubscriber(reportManager),
+                "report:create", "report:resolve", "report:expire"
+        );
     }
 
     private void loadConfigs() {
