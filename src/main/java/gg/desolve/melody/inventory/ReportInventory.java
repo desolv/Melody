@@ -46,7 +46,7 @@ public class ReportInventory extends FastInv {
                         Player player = (Player) e.getWhoClicked();
                         player.closeInventory();
 
-                        Message.sendMessage(player, "<green>A report has been submitted to staff.");
+                        Message.sendMessage(player, instance.getMessageConfig().report_created.replace("target%", target.getName()));
                     });
                 });
 

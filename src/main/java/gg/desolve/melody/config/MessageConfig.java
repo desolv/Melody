@@ -1,6 +1,7 @@
 package gg.desolve.melody.config;
 
 import eu.okaeri.configs.OkaeriConfig;
+import eu.okaeri.configs.annotation.Comment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,12 @@ import java.util.List;
 public class MessageConfig extends OkaeriConfig {
 
     public ReportConfig report_gui = new ReportConfig();
+
+    @Comment("")
+    public String report_created = "<green>A report has been submitted to staff.";
+    public String report_created_staff = "<yellow>target% <red>has been reported by <yellow>reporter% <red>for <gold>reason%<red>.";
+    public String report_expired_staff = "<red>A report has expired that was made against <yellow>target%<red>.";
+    public String report_resolved = "<green>A report against a player you reported has been resolved.";
 
     public static class ReportConfig extends OkaeriConfig {
         public String title = "<yellow><bold>Reporting</bold> <gray>›› target%";

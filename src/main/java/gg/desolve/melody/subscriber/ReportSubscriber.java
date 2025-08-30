@@ -34,7 +34,10 @@ public class ReportSubscriber extends JedisPubSub {
             String targetName = Converter.getBestName(report.getTarget());
             String reporterName = Converter.getBestName(report.getReporter());
 
-            String message = "<yellow>" + targetName + " <red>has been reported by <yellow>" + reporterName + " <red>for <gold>" + report.getReason() + "<red>.";
+            String message = instance.getMessageConfig().report_created_staff
+                    .replace("target%", targetName)
+                    .replace("reporter%", reporterName)
+                    .replace("reason%", report.getReason());
             Bukkit.getScheduler().runTask(instance, () -> broadcastStaff(message));
         });
     }
@@ -46,7 +49,7 @@ public class ReportSubscriber extends JedisPubSub {
             Player player = Bukkit.getPlayer(report.getReporter());
 
             if  (player != null) {
-                String message = "<green>A report against a player you reported has been resolved.";
+                String message = instance.getMessageConfig().report_resolved;
                 Bukkit.getScheduler().runTask(instance, () -> Message.sendMessage(player, message));
             }
         });
@@ -59,8 +62,10 @@ public class ReportSubscriber extends JedisPubSub {
             if (report == null) return;
 
             String targetName = Converter.getBestName(report.getTarget());
-            String message = "<red>A report has expired that was made against <yellow>" + targetName + "<red>.";
 
+
+            String message = instance.getMessageConfig().report_expired_staff
+                    .replace("target%", targetName);
             Bukkit.getScheduler().runTask(instance, () -> broadcastStaff(message));
         });
 
