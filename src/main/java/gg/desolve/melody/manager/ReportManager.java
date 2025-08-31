@@ -45,7 +45,7 @@ public class ReportManager {
         report.setState(ReportState.EXPIRED);
         report.setHandledAt(Instant.now());
 
-        instance.getRedisManager().publishAsync("report:expire", report.getId());
+        delete(report.getId());
         reportCollection.replaceOne(eq("_id", report.getId()), Report.toDocument(report), new ReplaceOptions().upsert(true));
     }
 

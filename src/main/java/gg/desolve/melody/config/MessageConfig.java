@@ -13,7 +13,6 @@ public class MessageConfig extends OkaeriConfig {
     @Comment("")
     public String report_created = "<green>A report has been submitted to staff.";
     public String report_created_staff = "<yellow>target% <red>has been reported by <yellow>reporter% <red>for <gold>reason%<red>.";
-    public String report_expired_staff = "<red>A report has expired that was made against <yellow>target%<red>.";
     public String report_resolved = "<green>A report against a player you reported has been resolved.";
 
     public static class ReportConfig extends OkaeriConfig {

@@ -22,7 +22,6 @@ public class ReportSubscriber extends JedisPubSub {
         switch (channel) {
             case "report:create" -> onCreate(message);
             case "report:resolve" -> onResolve(message);
-            case "report:expire" -> onExpire(message);
             default -> {}
         }
     }
@@ -52,21 +51,6 @@ public class ReportSubscriber extends JedisPubSub {
                 String message = instance.getMessageConfig().report_resolved;
                 Bukkit.getScheduler().runTask(instance, () -> Message.sendMessage(player, message));
             }
-        });
-
-        reportManager.delete(reportId);
-    }
-
-    private void onExpire(String reportId) {
-        reportManager.get(reportId).thenAccept(report -> {
-            if (report == null) return;
-
-            String targetName = Converter.getBestName(report.getTarget());
-
-
-            String message = instance.getMessageConfig().report_expired_staff
-                    .replace("target%", targetName);
-            Bukkit.getScheduler().runTask(instance, () -> broadcastStaff(message));
         });
 
         reportManager.delete(reportId);
