@@ -3,8 +3,8 @@ package gg.desolve.melody;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.serdes.standard.StandardSerdes;
 import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
-import fr.mrmicky.fastinv.FastInvManager;
 import gg.desolve.melody.command.ReportCommand;
+import gg.desolve.melody.command.ReportsCommand;
 import gg.desolve.melody.command.type.OnlinePlayerType;
 import gg.desolve.melody.config.MelodyConfig;
 import gg.desolve.melody.config.MessageConfig;
@@ -60,11 +60,10 @@ public final class Melody extends JavaPlugin {
         reportManager = new ReportManager();
 
         loadCommands();
-        loadInventory();
 
         redisManager.subscribeAsync(
                 new ReportSubscriber(reportManager),
-                "report:create", "report:resolve", "report:expire"
+                "report:create", "report:resolve"
         );
     }
 
@@ -99,14 +98,9 @@ public final class Melody extends JavaPlugin {
         this.getLogger().info("Hooked into Lamp.");
 
         List.of(
-                new ReportCommand()
+                new ReportCommand(),
+                new ReportsCommand()
         ).forEach(lamp::register);
-    }
-
-    private void loadInventory() {
-        FastInvManager.register(this);
-
-        this.getLogger().info("Hooked into FastInv.");
     }
 
 }

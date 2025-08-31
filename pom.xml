@@ -80,10 +80,6 @@
             <id>okaeri-repo</id>
             <url>https://storehouse.okaeri.eu/repository/maven-public/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -136,9 +132,9 @@
             <version>4.0.0-rc.12</version>
         </dependency>
         <dependency>
-            <groupId>fr.mrmicky</groupId>
-            <artifactId>fastinv</artifactId>
-            <version>3.1.2</version>
+            <groupId>dev.triumphteam</groupId>
+            <artifactId>triumph-gui</artifactId>
+            <version>3.1.11</version>
         </dependency>
     </dependencies>
 </project>

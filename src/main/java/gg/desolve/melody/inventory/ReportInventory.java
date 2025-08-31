@@ -1,55 +1,63 @@
 package gg.desolve.melody.inventory;
 
-import fr.mrmicky.fastinv.FastInv;
-import fr.mrmicky.fastinv.ItemBuilder;
+import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.Gui;
 import gg.desolve.melody.common.Converter;
 import gg.desolve.melody.common.Message;
 import gg.desolve.melody.manager.ReportManager;
 import gg.desolve.melody.model.Report;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static gg.desolve.melody.Melody.instance;
 
-public class ReportInventory extends FastInv {
+public class ReportInventory {
 
-    public ReportInventory(ReportManager reportManager, Player target) {
+    public ReportInventory(Player viewer, Player target) {
+        Gui gui = Gui.gui()
+                .title(Component.text(Message.translateLegacy(
+                        instance.getMessageConfig().report_gui.title
+                                .replace("target%", target.getName()))))
+                .rows(2)
+                .create();
 
-        super(18, Message.translateLegacy(
-                instance.getMessageConfig().report_gui.title
-                        .replace("target%", target.getName())
-        ));
+        gui.setDefaultClickAction(e -> e.setCancelled(true));
 
-        AtomicInteger slot = new AtomicInteger(9);
+        gui.getFiller().fillTop(
+                ItemBuilder.from(Material.GRAY_STAINED_GLASS_PANE)
+                        .name(Component.text(" "))
+                        .asGuiItem());
+
+
+        ReportManager reportManager = instance.getReportManager();
+
+        AtomicInteger slot = new AtomicInteger(1);
         instance.getMessageConfig().report_gui.categories.stream()
                 .limit(9)
                 .forEach(category -> {
-                    ItemStack item = new ItemBuilder(Material.valueOf(category.material))
-                            .name(Message.translateLegacy(category.display))
+                    ItemBuilder item = ItemBuilder.from(Material.valueOf(category.material))
+                            .name(Message.translate(category.display))
                             .lore(category.description.stream()
-                                    .map(Message::translateLegacy)
-                                    .toList())
-                            .build();
+                                    .map(Message::translate)
+                                    .toList());
 
-                    setItem(slot.getAndIncrement(), item, e -> {
-                        reportManager.create(
-                                new Report(
-                                        Converter.generateId(),
-                                        e.getWhoClicked().getUniqueId(),
-                                        target.getUniqueId(),
-                                        category.name
-                                ));
+                    gui.setItem(2, slot.getAndIncrement(), item.asGuiItem(e -> {
+                        reportManager.create(new Report(
+                                Converter.generateId(),
+                                target.getUniqueId(),
+                                target.getUniqueId(),
+                                category.name
+                        ));
 
-                        Player player = (Player) e.getWhoClicked();
-                        player.closeInventory();
-
-                        Message.sendMessage(player, instance.getMessageConfig().report_created.replace("target%", target.getName()));
-                    });
+                        viewer.closeInventory();
+                        Message.sendMessage(viewer,
+                                instance.getMessageConfig().report_created.replace("target%", target.getName()));
+                    }));
                 });
 
-        setItems(0, 9, new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").build());
+        gui.open(viewer);
     }
 }

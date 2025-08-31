@@ -3,7 +3,6 @@ package gg.desolve.melody.command;
 import gg.desolve.melody.common.Message;
 import gg.desolve.melody.inventory.ReportInventory;
 import gg.desolve.melody.manager.ReportManager;
-import gg.desolve.melody.model.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
@@ -34,16 +33,7 @@ public class ReportCommand {
                 return;
             }
 
-            // Move to its own method - that runs every x minutes for all global reports
-            reports.stream()
-                    .filter(Objects::nonNull)
-                    .filter(r -> r.getTarget().equals(target.getUniqueId()))
-                    .filter(Report::isExpired)
-                    .forEach(reportManager::expire);
-
-            Bukkit.getScheduler().runTask(instance, () ->
-                    new ReportInventory(instance.getReportManager(), target).open(sender)
-            );
+            Bukkit.getScheduler().runTask(instance, () -> new ReportInventory(sender, target));
         });
 
     }
