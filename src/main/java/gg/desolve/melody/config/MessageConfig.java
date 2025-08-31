@@ -8,14 +8,18 @@ import java.util.List;
 
 public class MessageConfig extends OkaeriConfig {
 
-    public ReportConfig report_gui = new ReportConfig();
+    public ReportGuiConfig report_gui = new ReportGuiConfig();
+
+    @Comment("")
+    public ReportsConfig reports_gui = new ReportsConfig();
 
     @Comment("")
     public String report_created = "<green>A report has been submitted to staff.";
     public String report_created_staff = "<yellow>target% <red>has been reported by <yellow>reporter% <red>for <gold>reason%<red>.";
     public String report_resolved = "<green>A report against a player you reported has been resolved.";
+    public String report_resolved_staff = "<green>You've resolved a report! <yellow>#id%";
 
-    public static class ReportConfig extends OkaeriConfig {
+    public static class ReportGuiConfig extends OkaeriConfig {
         public String title = "<yellow><bold>Reporting</bold> <gray>›› target%";
         public List<ReportCategory> categories = Arrays.asList(
                 new ReportCategory(
@@ -30,6 +34,22 @@ public class MessageConfig extends OkaeriConfig {
                         "PAPER",
                         List.of("<gray>Profanity, harassment, spam")
                 )
+        );
+    }
+
+    public static class ReportsConfig extends OkaeriConfig {
+        public String title = "<yellow><bold>Reports</bold>";
+        public String name = "<green>#id%";
+        public List<String> lore = List.of(
+                "<gray>Created At: <white>time%",
+                "<gray>",
+                "<gray>From: <white>reporter%",
+                "<gray>Reported: <white>reported%",
+                "<gray>",
+                "<gray>Reason: <white>reason%",
+                "<gray>Server: <white>server%",
+                "<gray>",
+                "<yellow>Click to resolve!"
         );
     }
 
