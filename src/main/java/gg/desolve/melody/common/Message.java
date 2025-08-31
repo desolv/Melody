@@ -1,6 +1,7 @@
 package gg.desolve.melody.common;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public class Message {
     private static final String prefix = instance.getMelodyConfig().prefix;
 
     public static Component translate(String message) {
-        return MM.deserialize(message);
+        return MM.deserialize(message).decoration(TextDecoration.ITALIC, false);
     }
 
     public static String translateLegacy(String message) {
