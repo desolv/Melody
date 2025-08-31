@@ -2,6 +2,9 @@ package gg.desolve.melody.common;
 
 import org.bukkit.Bukkit;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class Converter {
@@ -22,5 +25,11 @@ public class Converter {
         var offline = Bukkit.getOfflinePlayer(uuid);
 
         return offline.getName() != null ? offline.getName() : uuid.toString();
+    }
+
+    public static String formatInstant(Instant instant) {
+        ZoneId zone = ZoneId.of("Europe/London");;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss").withZone(zone);
+        return formatter.format(instant);
     }
 }
