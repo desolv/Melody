@@ -28,8 +28,6 @@ public class ReportManager {
 
         redisManager.withRedisAsync(j -> j.set("report:" + report.getId(), Report.toJson(report)));
         redisManager.publishAsync("report:create", report.getId());
-
-        reportCollection.replaceOne(eq("_id", report.getId()), Report.toDocument(report), new ReplaceOptions().upsert(true));
     }
 
     public void resolve(Report report, UUID handledBy) {
