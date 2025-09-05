@@ -3,7 +3,7 @@ package gg.desolve.melody.manager;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.ReplaceOptions;
 import gg.desolve.melody.model.Report;
-import gg.desolve.melody.model.ReportState;
+import gg.desolve.melody.model.ReportType;
 import lombok.Getter;
 import org.bson.Document;
 
@@ -31,7 +31,7 @@ public class ReportManager {
     }
 
     public void resolve(Report report, UUID handledBy) {
-        report.setState(ReportState.RESOLVED);
+        report.setState(ReportType.RESOLVED);
         report.setHandledBy(handledBy);
         report.setHandledAt(Instant.now());
 
@@ -40,7 +40,7 @@ public class ReportManager {
     }
 
     public void expire(Report report) {
-        report.setState(ReportState.EXPIRED);
+        report.setState(ReportType.EXPIRED);
         report.setHandledAt(Instant.now());
 
         delete(report.getId());

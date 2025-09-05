@@ -1,6 +1,6 @@
 package gg.desolve.melody.model;
 
-public enum ReportState {
+public enum ReportType {
 
     ACTIVE,
     RESOLVED,

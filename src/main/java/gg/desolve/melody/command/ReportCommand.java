@@ -16,7 +16,7 @@ import static gg.desolve.melody.Melody.instance;
 public class ReportCommand {
 
     @Dependency
-    private ReportManager  reportManager;
+    private ReportManager reportManager;
 
     @Command("report")
     public void report(Player sender, @Named("player") Player target) {

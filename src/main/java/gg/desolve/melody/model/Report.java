@@ -19,7 +19,7 @@ public class Report {
     private String reason;
     private Instant createdAt;
     private String server;
-    private ReportState state;
+    private ReportType state;
     private UUID handledBy;
     private Instant handledAt;
 
@@ -30,10 +30,10 @@ public class Report {
         this.reason = reason;
         this.createdAt = Instant.now();
         this.server = instance.getMelodyConfig().server_name;
-        this.state = ReportState.ACTIVE;
+        this.state = ReportType.ACTIVE;
     }
 
-    public Report(String id, UUID reporter, UUID target, String reason, Instant createdAt, String server, ReportState state, UUID handledBy, Instant handledAt) {
+    public Report(String id, UUID reporter, UUID target, String reason, Instant createdAt, String server, ReportType state, UUID handledBy, Instant handledAt) {
         this.id = id;
         this.reporter = reporter;
         this.target = target;
@@ -89,7 +89,7 @@ public class Report {
                 document.getString("reason"),
                 toInstant(document.get("createdAt")),
                 document.getString("server"),
-                ReportState.valueOf(document.getString("state")),
+                ReportType.valueOf(document.getString("state")),
                 document.get("handledBy", UUID.class),
                 toInstant(document.get("handledAt"))
         );
