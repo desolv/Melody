@@ -1,5 +1,6 @@
 Write-Output "`Deploying Melody..."
 
+$cooldown = $env:COOLDOWN
 Write-Output "Waiting $cooldown seconds before deploying..."
 Start-Sleep -Seconds $cooldown
 
@@ -12,17 +13,6 @@ if (-not (Test-Path $deployPath)) {
     exit 0
 }
 
-Write-Output "Cleaning deploy folder..."
-$oldJars = Get-ChildItem "$deployPath\melody-*.jar" -ErrorAction SilentlyContinue
-if ($oldJars) {
-    $oldJars | ForEach-Object {
-        # Write-Output " - Removing: $($_.Name)"
-        Remove-Item $_.FullName -Force
-    }
-} else {
-    Write-Output "No old jars found."
-}
-
 Write-Output "Searching for built jars..."
 $newJar = Get-ChildItem "$buildPath\melody-*.jar" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
@@ -31,10 +21,9 @@ if ($null -eq $newJar) {
     exit 0
 }
 
-# Write-Output "Found jar: $($newJar.FullName)"
+$destPath = Join-Path $deployPath "melody.jar"
 
-$destPath = Join-Path $deployPath $newJar.Name
 Write-Output "Deploying..."
 Copy-Item $newJar.FullName -Destination $destPath -Force
-Write-Output "Deployed $($newJar.Name) -> $deployPath"
+Write-Output "Deployed as melody.jar -> $deployPath"
 exit 0
