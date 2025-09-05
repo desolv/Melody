@@ -41,6 +41,7 @@ public class ReportsInventory {
         paginatedGui.getFiller().fillBetweenPoints(1, 8, 3, 8, GLASS_PANE);
 
         paginatedGui.setItem(1, 1, AIR);
+        paginatedGui.setItem(3, 1, AIR);
 
         paginatedGui.setItem(
                 2, 9,
