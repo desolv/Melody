@@ -43,3 +43,12 @@ This design keeps active reports lightweight and fast in Redis, while MongoDB ha
 - /report - melody.report
 - /reports - melody.reports
 - Staff notifications - melody.staff
+
+---
+
+## To Do  
+
+- [ ] Migrate MongoDB to an async driver (Lettuce) for improved performance
+- [ ] Implement GUI controls to switch between **Resolved** & **Expired** states (fetched from Mongo) 
+- [ ] Enhance caching by Using **local memory as primary cache** 
+
