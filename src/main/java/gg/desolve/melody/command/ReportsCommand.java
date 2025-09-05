@@ -9,12 +9,11 @@ import revxrsal.commands.annotation.Dependency;
 public class ReportsCommand {
 
     @Dependency
-    private ReportManager  reportManager;
+    private ReportManager reportManager;
 
     @Command("reports")
     public void reports(Player sender) {
-        new ReportsInventory(sender);
-
+        new ReportsInventory(ReportsInventory.ReportSortBy.NEWEST_FIRST, sender);
     }
 
 }
