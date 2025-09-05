@@ -35,3 +35,11 @@ This design keeps active reports lightweight and fast in Redis, while MongoDB ha
 - Persistent storage of resolved and expired reports across restarts
 - Flexible GUI to view, sort, and filter reports
 - Modular and extensible design  
+
+---
+
+## Commands & Permissions
+
+- /report - melody.report
+- /reports - melody.reports
+- Staff notifications - melody.staff
