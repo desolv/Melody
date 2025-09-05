@@ -5,6 +5,7 @@ import gg.desolve.melody.manager.ReportManager;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Dependency;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 public class ReportsCommand {
 
@@ -12,6 +13,7 @@ public class ReportsCommand {
     private ReportManager reportManager;
 
     @Command("reports")
+    @CommandPermission("melody.reports")
     public void reports(Player sender) {
         new ReportsInventory(ReportsInventory.ReportSortBy.NEWEST_FIRST, sender);
     }

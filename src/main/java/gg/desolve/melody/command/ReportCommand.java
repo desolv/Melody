@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.Dependency;
 import revxrsal.commands.annotation.Named;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public class ReportCommand {
     private ReportManager reportManager;
 
     @Command("report")
+    @CommandPermission("melody.report")
     public void report(Player sender, @Named("player") Player target) {
         if (sender == target) {
             Message.sendMessage(sender, instance.getMessageConfig().report_self);
