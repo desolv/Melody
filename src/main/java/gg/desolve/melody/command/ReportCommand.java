@@ -20,6 +20,11 @@ public class ReportCommand {
 
     @Command("report")
     public void report(Player sender, @Named("player") Player target) {
+        if (sender == target) {
+            Message.sendMessage(sender, instance.getMessageConfig().report_self);
+            return;
+        }
+
         reportManager.getReportsByReporter(target.getUniqueId()).thenAccept(reports -> {
             boolean hasActiveCooldown = reports.stream()
                     .filter(Objects::nonNull)
@@ -28,7 +33,7 @@ public class ReportCommand {
 
             if (hasActiveCooldown) {
                 Bukkit.getScheduler().runTask(instance, () ->
-                        Message.sendMessage(sender, "<red>Please wait 5 minutes before reporting this player again.")
+                        Message.sendMessage(sender, instance.getMessageConfig().report_cooldown)
                 );
                 return;
             }
