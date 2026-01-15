@@ -22,26 +22,15 @@ import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 
 import java.util.List;
 
+@Getter
 public final class Melody extends JavaPlugin {
 
     public static Melody instance;
-
-    @Getter
     public MelodyConfig melodyConfig;
-
-    @Getter
     public MessageConfig messageConfig;
-
-    @Getter
     public MongoManager mongoManager;
-
-    @Getter
     public RedisManager redisManager;
-
-    @Getter
     private ReportManager reportManager;
-
-    @Getter
     public Lamp<BukkitCommandActor> lamp;
 
     @Override
