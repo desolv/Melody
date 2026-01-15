@@ -1,54 +1,37 @@
 # Melody
 
-Melody is an efficient **report system** plugin for Minecraft servers.
-
----
+An efficient report system plugin for Minecraft servers.
 
 ## Libraries
 
-- **Lamp** – Command framework for clean, annotation-based commands
-- **Triumph GUI** – Simplified and flexible GUI system
-- **MongoDB** – Permanent storage for resolved and expired reports
-- **Redis** – Caching and pub/sub system for active reports and cross-server synchronization (async)
-
----
+- **Lamp** – Command framework
+- **Triumph GUI** – GUI system
+- **MongoDB** – Persistent storage for resolved and expired reports
+- **Redis** – Cache and pub/sub for active reports and cross-server sync
 
 ## Database Strategy
 
-- **Redis (Primary Cache for Active Reports)**
-    - All active reports are stored here for fast access.
-    - Shared cache across servers.
-    - Used for pub/sub to broadcast report updates globally.
+**Redis** – Primary cache for active reports. Fast access, shared across servers, pub/sub for global updates.
 
-- **MongoDB (Persistence Layer for Resolved & Expired Reports)**
-    - Stores all resolved and expired reports permanently.
-    - Acts as the final fallback for historical data.
-
-This design keeps active reports lightweight and fast in Redis, while MongoDB handles long-term persistence.
-
----
+**MongoDB** – Persistence layer for resolved and expired reports. Long-term storage and historical data.
 
 ## Features
 
 - Create and manage player reports
-- Active reports synchronized across servers in real time
-- Persistent storage of resolved and expired reports across restarts
-- Flexible GUI to view, sort, and filter reports
-- Modular and extensible design  
-
----
+- Real-time cross-server synchronization
+- Persistent storage across restarts
+- Flexible GUI with sorting and filtering
+- Modular design
 
 ## Commands & Permissions
 
-- /report - melody.report
-- /reports - melody.reports
-- Staff notifications - melody.staff
+- `/report` – `melody.report`
+- `/reports` – `melody.reports`
+- Staff notifications – `melody.staff`
 
----
+## To Do
 
-## To Do  
-
-- [ ] Migrate MongoDB to an async driver (Lettuce) for improved performance
-- [ ] Implement GUI controls to switch between **Resolved** & **Expired** states (fetched from Mongo) 
-- [ ] Enhance caching by Using **local memory as primary cache** 
+- [ ] Migrate MongoDB to async driver (Lettuce)
+- [ ] Add GUI controls for Resolved & Expired states
+- [ ] Use local memory as primary cache 
 
