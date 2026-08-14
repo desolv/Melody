@@ -23,15 +23,3 @@ An efficient report system plugin for Minecraft servers.
 - Flexible GUI with sorting and filtering
 - Modular design
 
-## Commands & Permissions
-
-- `/report` – `melody.report`
-- `/reports` – `melody.reports`
-- Staff notifications – `melody.staff`
-
-## To Do
-
-- [ ] Migrate MongoDB to async driver (Lettuce)
-- [ ] Add GUI controls for Resolved & Expired states
-- [ ] Use local memory as primary cache 
-
